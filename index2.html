@@ -38,6 +38,8 @@
       <!-- ...and so on... -->
     </tbody>
   </table>
+  
+  Total :<input  name="total" type="text" disabled>
 <script>
   (function() {
     "use strict";
@@ -48,6 +50,7 @@
       var price = parseFloat(row.find("input:eq(1)").val());
       var total = qty * price;
       row.find("input:eq(2)").val(isNaN(total) ? "" : total);
+	  
     });
   })();
 </script>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <meta charset="utf-8">
+  <title>Example</title>
+</head>
+<body>
+<div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Q1</th>
+                    <th>Q2</th>
+                    <th>Q3</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>Exercise #1</td>
+                <td>
+                    <input type="text" class="txt input-mini" />
+                </td>
+                <td>
+                    <input type="text" class="txt input-mini" />
+                </td>
+                <td>
+                    <input type="text" class="txt input-mini" />
+                </td>
+            </tr>
+            <tr>
+                <td>Exercise #2</td>
+                <td>
+                    <input type="text" class="txt input-mini" />
+                </td>
+                <td>
+                    <input type="text" class="txt input-mini" />
+                </td>
+                <td>
+                    <input type="text" class="txt input-mini" />
+                </td>
+            </tr>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="row-fluid">
+            <div class="span5">
+                <div class="form-inline">
+                    <label>Sum of Quarters' Total</label>
+                    <input id="sum" type="text" class="input-medium" />
+                </div>
+            </div>
+            <div class="span7">
+                <div class="form-inline">
+                    <label>Quarters' Total</label>
+                    <input type="text" class="input-mini" />
+                    <input type="text" class="input-mini" />
+                    <input type="text" class="input-mini" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        $(document).ready(function () {
+            //iterate through each textboxes and add keyup
+            //handler to trigger sum event
+            $(".txt").each(function () {
+                $(this).keyup(function () {
+                    calculateSum();
+                });
+            });
+        });
+
+        function calculateSum() {
+            var sum = 0;
+            //iterate through each textboxes and add the values
+            $(".txt").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+            
+            var sumQ = [];
+            for (var i=1; i<=3; i++) {
+                sumQ[i] = 0;
+                $('td:nth-child('+(i+1)+')').find(".txt").each(function () {
+                    if (!isNaN(this.value) && this.value.length != 0) {
+                        sumQ[i] += parseFloat(this.value);
+                    }
+                });
+                $(".span7").find('input').eq(i-1).val(sumQ[i].toFixed(2));
+            }
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#sum").val(sum.toFixed(2));
+        }
+</script>
+</body>
+</html>
