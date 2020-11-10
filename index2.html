@@ -18,30 +18,30 @@
       <tr>
         <td><input name="qnt[1]" type="text"></td>
         <td><input name="prc[1]" type="text"></td>
-        <td><input name="add[1]" type="text" disabled></td>
+        <td><input name="add[1]" type="text" class="txt" disabled></td>
       </tr>
 	  <tr>
         <td><input name="qnt[2]" type="text"></td>
         <td><input name="prc[2]" type="text"></td>
-        <td><input  name="add[2]"type="text" disabled></td>
+        <td><input  name="add[2]"type="text" class="txt"  disabled></td>
       </tr>
 	  <tr>
         <td><input name="qnt[3]" type="text"></td>
         <td><input name="prc[3]" type="text"></td>
-        <td><input name="add[3]" type="text" disabled></td>
+        <td><input name="add[3]" type="text"  class="txt" disabled></td>
       </tr>
 	  <tr>
         <td><input name="qnt[4]" type="text"></td>
         <td><input  name="prc[4]" type="text"></td>
-        <td><input  name="add[4]" type="text" disabled></td>
+        <td><input  name="add[4]" type="text" class="txt" disabled></td>
       </tr>
       <!-- ...and so on... -->
     </tbody>
   </table>
   
-  Total :<input  name="total" type="text" disabled>
+  Total :<input id="sum"  name="total" type="text" disabled>
 <script>
-  (function() {
+  $(document).ready(function () {
     "use strict";
 
     $("table").on("change", "input", function() {
@@ -50,9 +50,33 @@
       var price = parseFloat(row.find("input:eq(1)").val());
       var total = qty * price;
       row.find("input:eq(2)").val(isNaN(total) ? "" : total);
-	  
+      calculateSum();
     });
   })();
+
+  function calculateSum() {
+            var sum = 0;
+            //iterate through each textboxes and add the values
+            $(".txt").each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+            
+            var sumQ = [];
+            for (var i=1; i<=3; i++) {
+                sumQ[i] = 0;
+                $('td:nth-child('+(i+1)+')').find(".txt").each(function () {
+                    if (!isNaN(this.value) && this.value.length != 0) {
+                        sumQ[i] += parseFloat(this.value);
+                    }
+                });
+            }
+
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#sum").val(sum.toFixed(2));
+        }
 </script>
 </body>
 </html>
